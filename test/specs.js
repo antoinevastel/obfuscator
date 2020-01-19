@@ -258,4 +258,37 @@ describe('Transformation on if statements', () => {
         replaceIfStatements(ast, ifStatementToTernary);
         assert.strictEqual(eval(escodegen.generate(ast) + '\n isTrue;'), undefined);
     })
+
+    it('if to ternary (consequent but no alternate, 1 function call (consequent))', () => {     
+        const ast = esprima.parseScript(`
+            let isTrue = false;
+            function f() {
+                isTrue = true;
+            }
+            const a = true;
+            if (a) {
+                f();
+            }
+        `)
+        
+        replaceIfStatements(ast, ifStatementToTernary);
+        assert.strictEqual(eval(escodegen.generate(ast) + '\n isTrue;'), true);
+    })
+
+    it('if to ternary (consequent but no alternate, 1 binary expression + 1 function call (consequent))', () => {     
+        const ast = esprima.parseScript(`
+            let isTrue = false;
+            function f() {
+                isTrue = true;
+            }
+            const a = true;
+            if (a) {
+                2 + 3;
+                f();
+            }
+        `)
+        
+        replaceIfStatements(ast, ifStatementToTernary);
+        assert.strictEqual(eval(escodegen.generate(ast) + '\n isTrue;'), true);
+    })
 })
