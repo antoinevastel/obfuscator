@@ -13,6 +13,6 @@
     "esprima": "^4.0.1",
     "esquery": "^1.0.1",
     "estraverse": "^4.3.0",
-    "mocha": "^7.0.0"
+    "mocha": "^10.2.0"
   }
 }
